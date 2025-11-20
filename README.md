@@ -23,12 +23,59 @@ Para este projeto, foram selecionados **4 exercícios** que representam diferent
 | ----------------------------------------------------------------------------------------------------------- | ----------- | --------------- |
 | [912. Sort an Array](https://leetcode.com/problems/sort-an-array/?envType=problem-list-v2&envId=radix-sort) | Médio       | Radix Sort      |
 | [1833. Maximum Ice Cream Bars](https://leetcode.com/problems/maximum-ice-cream-bars/submissions/1799871426/?envType=problem-list-v2&envId=counting-sort)                                                         | Médio       | Counting Sort                |
-| [220. Contains Duplicate III](https://leetcode.com/problems/contains-duplicate-iii/description/?envType=problem-list-v2&envId=bucket-sort)  | Difícil     | Bucket Sort |
-| [23. Merge k Sorted Lists](https://leetcode.com/problems/merge-k-sorted-lists/?envType=problem-list-v2&envId=merge-sort)   | Difícil         | Merge Sort  |
+| [133. Clone Graph](https://leetcode.com/problems/clone-graph/description/)  | Médio     | Grafo c/ DFS |
+| [322. Reconstruct Itinerary](https://leetcode.com/problems/reconstruct-itinerary/description/)   | Difícil         | Grafo com DFS |
 
 ## Exercícios Desenvolvidos
 
-### XXX
+### 133. Clone Graph
+
+**Conceito:**
+
+O exercício **133. Clone Graph** é um problema de manipulação de grafos que exige a criação de uma **cópia profunda (deep copy)** de um grafo não direcionado e conectado. A principal dificuldade deste problema está em garantir que todos os nós e suas conexões sejam duplicados de forma independente, mantendo a estrutura original do grafo, mas sem compartilhar referências de memória entre o grafo original e o clonado.
+
+**Definição da Estrutura:**
+
+Cada nó do grafo é representado por uma classe `Node` que contém:
+- **val**: O valor inteiro do nó (que coincide com seu índice, 1-indexed)
+- **neighbors**: Uma lista contendo referências para os nós vizinhos
+
+```javascript
+class Node {
+    public int val;
+    public List<Node> neighbors;
+}
+```
+
+**Entrada e Saída:**
+
+- **Entrada**: Uma referência para um nó em um grafo conectado não direcionado
+- **Saída**: Uma referência para a cópia do nó dado, representando o grafo clonado completo
+
+**Solução Implementada:**
+
+A solução utiliza **DFS (Depth-First Search)** com recursão e um **HashMap** para rastrear nós já visitados,
+
+Ele cria um `Map` (HashMap) para armazenar a correspondência entre nós originais e seus clones:
+- **Chave**: Referência ao nó original
+- **Valor**: Referência ao nó clonado
+
+Logo em seguida, a função interna entra na lógica de DFS recursivo, o qual recebe o nó atual a ser clonado como parâmetro.
+
+- Se o nó já foi clonado anteriormente, retorna o clone existente
+
+Como próximo passo, é criado uma nova instância de `_Node` com o mesmo valor do nó original, e nesse momento, a lista de vizinhos ainda está vazia `[]`
+
+Depois registramos o nó ANTES de processar seus vizinho para lidar com referências circulares.
+
+Finaliznando, temos a iteração sobre todos os vizinhos do nó original:
+- Para cada vizinho, chama recursivamente `clonar(vizinho)` e adiciona o vizinho clonado à lista de vizinhos do novo nó
+
+Por fim, retorna a referência do nó clonado completo (com todos os vizinhos)
+
+Temos então, um grafo completamente clonado com todas as conexões preservadas.
+
+![Resultados do Exercicio 133](./Assets/133_CloneGraph.png)
 
 ## Como Validar os Exercícios
 
