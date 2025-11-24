@@ -121,7 +121,7 @@ Como próximo passo, é criado uma nova instância de `_Node` com o mesmo valor 
 
 Depois registramos o nó ANTES de processar seus vizinho para lidar com referências circulares.
 
-Finaliznando, temos a iteração sobre todos os vizinhos do nó original:
+Finalizando, temos a iteração sobre todos os vizinhos do nó original:
 - Para cada vizinho, chama recursivamente `clonar(vizinho)` e adiciona o vizinho clonado à lista de vizinhos do novo nó
 
 Por fim, retorna a referência do nó clonado completo (com todos os vizinhos)
@@ -129,6 +129,24 @@ Por fim, retorna a referência do nó clonado completo (com todos os vizinhos)
 Temos então, um grafo completamente clonado com todas as conexões preservadas.
 
 ![Resultados do Exercicio 133](./Assets/133_CloneGraph.png)
+
+### 332. Reconstruct Itinerary
+
+#### Conceito do Problema
+
+O exercício **332. Reconstruct Itinerary** (Reconstruir Itinerário) é um problema complicada de grafos que simula a reconstrução de um itinerário de viagem a partir de uma lista de passagens aéreas. Dado um conjunto de tickets onde cada ticket representa um voo de um aeroporto de origem para um aeroporto de destino, o objetivo então é encontrar a ordem correta de visitar todos os aeroportos, começando sempre do aeroporto **"JFK"**.
+
+#### Solução Implementada
+
+A solução utiliza o **Algoritmo de Hierholzer** modificado, que encontra caminhos eulerianos em grafos direcionados através de DFS (busca em profundidade). A estratégia principal é explorar todos os destinos possíveis de cada aeroporto e construir o itinerário de forma reversa.
+
+De forma mais clara, ela inicialmente ordena os tickets lexicograficamente, garantindo assim que, ao construir o grafo, os destinos já estejam na ordem correta.
+Em seguida criamos um `Map` onde a chave é o aeroporto de origem e o valor é um array de destinos possíveis a partir daquela origem.
+Com isso, realizamos uma exploração total para cada destino antes de adicionar o aeroporto atual ao itinerário. O aeroporto então só é adicionado ao itinerário depois que todos os seus destinos foram visitados.
+
+Por fim, iniciamos a busca em "JFK" e como o itinerário foi construído de trás para frente, inverte o array para obter a ordem correta.
+
+![Resultados do Exercicio 332](./Assets/332_ReconstructItinerary.png)
 
 ## Como Validar os Exercícios
 
