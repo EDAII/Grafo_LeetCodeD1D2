@@ -19,12 +19,12 @@ O [LeetCode](https://leetcode.com/) é uma plataforma online amplamente utilizad
 
 Para este projeto, foram selecionados **4 exercícios** que representam diferentes abordagens de algoritmos de busca, sendo 2 categorizados como **Médio** e 2 como **Difícil**.
 
-| Exercício                                                                                                   | Dificuldade | Método de Busca |
-| ----------------------------------------------------------------------------------------------------------- | ----------- | --------------- |
-| [399. Evaluate Division](https://leetcode.com/problems/evaluate-division/description/?envType=problem-list-v2&envId=graph) | Médio       | Grafo           |
-| []()       |             |                 |
-| [133. Clone Graph](https://leetcode.com/problems/clone-graph/description/)  | Médio     | Grafo c/ DFS |
-| [322. Reconstruct Itinerary](https://leetcode.com/problems/reconstruct-itinerary/description/)   | Difícil         | Grafo com DFS |
+| Exercício                                                                                                                  | Dificuldade | Método de Busca |
+| -------------------------------------------------------------------------------------------------------------------------- | ----------- | --------------- |
+| [399. Evaluate Division](https://leetcode.com/problems/evaluate-division/description/?envType=problem-list-v2&envId=graph) | Médio       | Grafo c/ DFS    |
+| [753. Cracking The Safe](https://leetcode.com/problems/cracking-the-safe/description/?envType=problem-list-v2&envId=graph) | Difícil     | Grafo c/ DFS    |
+| [133. Clone Graph](https://leetcode.com/problems/clone-graph/description/)                                                 | Médio       | Grafo c/ DFS    |
+| [322. Reconstruct Itinerary](https://leetcode.com/problems/reconstruct-itinerary/description/)                             | Difícil     | Grafo com DFS   |
 
 ## Exercícios Desenvolvidos
 
@@ -81,6 +81,67 @@ Para cada consulta [c, d], executa uma nova busca DFS com um conjunto fresh de n
 
 ![399](./Assets/399_EvaluateDivision.png)
 
+### 753. Cracking The Safe
+
+O exercício 753. Cracking The Safe é um problema avançado de **teoria dos grafos** que exige encontrar uma sequência de dígitos de comprimento mínimo que contenha todas as possíveis senhas de tamanho `n` usando dígitos de `0` a `k-1`. A principal dificuldade está em modelar o problema como um **Grafo de De Bruijn** e encontrar um **Ciclo Euleriano** que visite todas as arestas (senhas possíveis) exatamente uma vez.
+
+**Definição da Estrutura:**
+
+O problema trabalha com:
+
+- `n`: Comprimento de cada senha possível
+- `k`: Número de dígitos disponíveis (0 a k-1)
+- Objetivo: Encontrar uma string que contenha cada senha possível como subsequência
+
+**Entrada e Saída:**
+
+- Entrada: Dois inteiros `n` (comprimento da senha) e `k` (base numérica)
+- Saída: String de comprimento mínimo `k^n + n - 1` que "cracka" o cofre
+
+**Solução Implementada:**
+
+A solução utiliza **DFS (Depth-First Search)** baseado no **Algoritmo de Hierholzer** para encontrar um ciclo Euleriano em um Grafo de De Bruijn.
+
+**Modelagem como Grafo de De Bruijn:**
+
+- **Nós**: Strings de comprimento `n-1` (prefixos/sufixos das senhas)
+- **Arestas**: Representam senhas completas de comprimento `n`
+- **Objetivo**: Encontrar um ciclo que visite cada aresta exatamente uma vez
+
+```javascript
+// Para n=2, k=2:
+// Nós: "0", "1"
+// Arestas: "00", "01", "10", "11"
+// Resultado: "01100" (contém todas as senhas)
+```
+
+**Algoritmo DFS com Hierholzer:**
+
+1. **Caso Base:** Para `n=1`, retorna simplesmente todos os dígitos de `0` a `k-1`
+
+2. **Inicialização:** Começa com um nó inicial de `n-1` zeros (`"000..."`)
+
+3. **Busca DFS Recursiva:** Para cada nó atual:
+
+   - Tenta adicionar cada dígito possível (`0` a `k-1`)
+   - Forma uma aresta completa (senha de tamanho `n`)
+   - Se a aresta não foi visitada, marca como visitada e continua recursivamente
+
+4. **Construção da Sequência:**
+
+   - Durante o retorno da recursão, adiciona os dígitos ao resultado
+   - Utiliza a propriedade do DFS de construir o caminho de volta
+
+5. **Resultado Final:** Concatena o nó inicial com a sequência reversa de dígitos encontrados
+
+**Propriedades Matemáticas:**
+
+- **Número total de senhas:** `k^n`
+- **Comprimento mínimo da solução:** `k^n + n - 1`
+- **Garantia de existência:** Todo Grafo de De Bruijn tem um ciclo Euleriano (grafo Euleriano)
+
+![753](./Assets/753_CrackingTheSafe.png)
+
 ### 133. Clone Graph
 
 **Conceito:**
@@ -90,6 +151,7 @@ O exercício **133. Clone Graph** é um problema de manipulação de grafos que 
 **Definição da Estrutura:**
 
 Cada nó do grafo é representado por uma classe `Node` que contém:
+
 - **val**: O valor inteiro do nó (que coincide com seu índice, 1-indexed)
 - **neighbors**: Uma lista contendo referências para os nós vizinhos
 
@@ -110,6 +172,7 @@ class Node {
 A solução utiliza **DFS (Depth-First Search)** com recursão e um **HashMap** para rastrear nós já visitados,
 
 Ele cria um `Map` (HashMap) para armazenar a correspondência entre nós originais e seus clones:
+
 - **Chave**: Referência ao nó original
 - **Valor**: Referência ao nó clonado
 
@@ -122,6 +185,7 @@ Como próximo passo, é criado uma nova instância de `_Node` com o mesmo valor 
 Depois registramos o nó ANTES de processar seus vizinho para lidar com referências circulares.
 
 Finalizando, temos a iteração sobre todos os vizinhos do nó original:
+
 - Para cada vizinho, chama recursivamente `clonar(vizinho)` e adiciona o vizinho clonado à lista de vizinhos do novo nó
 
 Por fim, retorna a referência do nó clonado completo (com todos os vizinhos)
@@ -172,3 +236,28 @@ Para verificar a corretude das implementações, siga estes passos:
 5. Clique em **"Submit"** para validação completa contra todos os casos de teste
 
 ## Referências
+
+1. **LeetCode Platform** - [https://leetcode.com/](https://leetcode.com/)
+
+   - Plataforma principal utilizada para obtenção dos exercícios e validação das soluções
+   - Fonte dos enunciados, que se encontram comentados nos arquivos de código.
+
+2. **Introduction to Algorithms (CLRS)** - Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, Clifford Stein
+
+   - Referência clássica para algoritmos e estruturas de dados, incluindo capítulos detalhados sobre grafos
+   - Cobertura abrangente de DFS, BFS, algoritmos de caminho mínimo e fluxo máximo
+
+3. **Algorithms, 4th Edition** - Robert Sedgewick, Kevin Wayne
+
+   - Livro fundamental com implementações práticas de algoritmos de grafos
+   - Excelente abordagem didática para compreensão de grafos direcionados e não-direcionados
+
+4. **Graph Theory with Applications** - J.A. Bondy, U.S.R. Murty
+
+   - Texto aprofundado sobre teoria matemática dos grafos
+   - Base teórica sólida para compreensão de conceitos como ciclos eulerianos e grafos de De Bruijn
+
+5. **GeeksforGeeks - Graph Data Structure** - [https://www.geeksforgeeks.org/graph-data-structure-and-algorithms/](https://www.geeksforgeeks.org/graph-data-structure-and-algorithms/)
+
+   - Portal educacional com explicações práticas e implementações de algoritmos de grafos
+   - Recursos didáticos complementares para estudo de DFS, BFS e algoritmos avançados
